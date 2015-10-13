@@ -4,16 +4,20 @@
 module Main where
 
 
-import           Conduit
 import           Data.Foldable
-import qualified Data.Text     as T
-import qualified Data.Text.IO  as TIO
+import qualified Data.Set          as S
+import qualified Data.Text.IO      as TIO
+import           System.IO
+import           Text.HTML.TagSoup
 
 import           Retag.Balance
 import           Retag.Types
 
 
 main :: IO ()
-main = do
-  imbalance <- fmap imbalancedTags . runResourceT $ stdinC $$ balanceReport
-  mapM_ (TIO.putStrLn . T.pack . show) $ toList imbalance
+main =
+    mapM_ TIO.putStrLn
+              . imbalancedTags
+              . foldl' trackTag (TagStack [] S.empty)
+              . parseTags
+        =<< TIO.hGetContents stdin

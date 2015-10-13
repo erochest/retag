@@ -26,6 +26,7 @@ library
                      , conduit-combinators
                      , conduit-extra
                      , containers
+                     , tagsoup
                      , text
                      , xml-conduit
                      , xml-types
@@ -43,6 +44,7 @@ executable c18sgml
                      , conduit-combinators
                      , containers
                      , optparse-applicative
+                     , tagsoup
                      , text
   hs-source-dirs:      app
   default-language:    Haskell2010
