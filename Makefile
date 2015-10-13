@@ -1,4 +1,3 @@
-
 SRC=$(shell find src -name '*.hs')
 
 CABAL=stack
@@ -18,6 +17,16 @@ test: build
 run: build
 	stack exec -- c18sgml
 
+data/c18-utf8.sgm: data/c18.sgm
+	iconv -f ISO-8859-1 -t UTF-8 < $< > $@
+
+data/c18-utf8.xml: data/c18-utf8.sgm
+	xmllint $< > $@ 2> xmllint.out
+
+xmllint: data/c18-utf8.xml
+
+debug.out: data/c18-utf8.sgm build
+	stack exec -- c18sgml < $< 2> $@
 
 # docs:
 # generate api documentation
@@ -46,11 +55,12 @@ hlint:
 clean:
 	stack clean
 	codex cache clean
+	-rm -f data/c18-utf8.sgm
 
 distclean: clean
 
 build:
-	stack build
+	stack build --pedantic
 
 watch:
 	ghcid "--command=stack ghci"
@@ -59,4 +69,4 @@ restart: distclean init build
 
 rebuild: clean build
 
-.PHONY: all init configure test run clean distclean build rebuild hlint watch tags
+.PHONY: all init configure test run clean distclean build rebuild hlint watch tags xmllint
