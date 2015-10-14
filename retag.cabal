@@ -17,7 +17,6 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     C18.Actions
-                     , C18.Actions.CloseTag
                      , C18.Actions.DeNest
                      , C18.Actions.Report
                      , C18.Balance

@@ -17,11 +17,6 @@ data Actions
     { denestInput   :: !FilePath
     , denestOutput  :: !FilePath
     , denestTagName :: !T.Text
-    }
-    | CloseTag
-    { closeTagInput  :: !FilePath
-    , closeTagOutput :: !FilePath
-    , closeTagName   :: !T.Text
     } deriving (Show, Eq, Data, Typeable, Generic)
 
 data TagStack a

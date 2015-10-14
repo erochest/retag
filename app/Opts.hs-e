@@ -29,9 +29,6 @@ reportOpts = pure Report
 denestOpts :: Parser Actions
 denestOpts = DeNest <$> inputFile <*> outputFile <*> tagName
 
-closeTagOpts :: Parser Actions
-closeTagOpts = CloseTag <$> inputFile <*> outputFile <*> tagName
-
 opts' :: Parser Actions
 opts' = subparser
         (  command "report" (info (helper <*> reportOpts)
@@ -41,9 +38,6 @@ opts' = subparser
         <> command "denest" (info (helper <*> denestOpts)
                              (progDesc "Denest a tag that's implicitly closed\
                                        \ everywhere it is left open."))
-        <> command "close-tag" (info (helper <*> closeTagOpts)
-                                (progDesc "Explicitly close tags whenever a\
-                                          \ parent tag closes over it."))
         )
 
 opts :: ParserInfo Actions
