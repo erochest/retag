@@ -7,6 +7,7 @@ module Retag.Balance where
 
 import           Conduit
 import qualified Data.ByteString       as B
+import qualified Data.List             as L
 import qualified Data.Set              as S
 import qualified Data.Text             as T
 import           Data.XML.Types
@@ -80,3 +81,22 @@ trackTag ts TagText{}     = ts
 trackTag ts TagComment{}  = ts
 trackTag ts TagWarning{}  = ts
 trackTag ts TagPosition{} = ts
+
+
+denestTag :: T.Text -> [T.Text] -> Tag T.Text -> ([T.Text], [Tag T.Text])
+
+denestTag denest (top:rest) t@(TagOpen name _)
+    | denest == name && denest == top = (name:rest, [TagClose top, t])
+    | denest == name && denest `L.elem` rest =
+        (TagClose top :) <$> denestTag denest rest t
+denestTag _ stack t@(TagOpen name _) = (name:stack, [t])
+
+denestTag denest (top:rest) t@(TagClose name)
+    | top == name = (rest, [t])
+    | otherwise   = (TagClose top :) <$> denestTag denest rest t
+denestTag _ [] t@(TagClose _) = ([], [t])
+
+denestTag _ stack t@(TagText{})     = (stack, [t])
+denestTag _ stack t@(TagComment{})  = (stack, [t])
+denestTag _ stack t@(TagWarning{})  = (stack, [t])
+denestTag _ stack t@(TagPosition{}) = (stack, [t])

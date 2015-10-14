@@ -23,6 +23,10 @@ data/c18-utf8.sgm: data/c18.sgm
 data/c18-utf8.xml: data/c18-utf8.sgm
 	xmllint $< > $@ 2> xmllint.out
 
+data/c18-utf8-pb.sgm: data/c18-utf8.sgm build
+	stack exec -- c18sgml denest --input $< --output $@ --tag pb
+	stack exec -- c18sgml report < $@ 2> debug-pb.out
+
 xmllint: data/c18-utf8.xml
 
 debug.out: data/c18-utf8.sgm build
