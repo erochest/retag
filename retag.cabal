@@ -16,7 +16,11 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     C18.Balance
+  exposed-modules:     C18.Actions
+                     , C18.Actions.CloseTag
+                     , C18.Actions.DeNest
+                     , C18.Actions.Report
+                     , C18.Balance
                      , C18.Types
   -- other-modules:       
   -- other-extensions:    
@@ -26,6 +30,7 @@ library
                      , conduit-combinators
                      , conduit-extra
                      , containers
+                     , errors
                      , tagsoup
                      , text
                      , xml-conduit
@@ -43,6 +48,7 @@ executable c18sgml
                      , conduit
                      , conduit-combinators
                      , containers
+                     , errors
                      , optparse-applicative
                      , tagsoup
                      , text

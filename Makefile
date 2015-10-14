@@ -15,7 +15,7 @@ test: build
 
 
 run: build
-	stack exec -- c18sgml
+	stack exec -- c18sgml --help
 
 data/c18-utf8.sgm: data/c18.sgm
 	iconv -f ISO-8859-1 -t UTF-8 < $< > $@
@@ -26,7 +26,7 @@ data/c18-utf8.xml: data/c18-utf8.sgm
 xmllint: data/c18-utf8.xml
 
 debug.out: data/c18-utf8.sgm build
-	stack exec -- c18sgml < $< 2> $@
+	stack exec -- c18sgml report < $< 2> $@
 
 # docs:
 # generate api documentation
