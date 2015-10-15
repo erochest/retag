@@ -14,8 +14,6 @@ import           Data.XML.Types
 import           Text.HTML.TagSoup
 import           Text.XML.Stream.Parse
 
-import           Debug.Trace
-
 import           Retag.Types
 
 
@@ -26,20 +24,15 @@ balanceReport = decodeUtf8C
 
 trackBalanced :: TagStack Name -> Event -> TagStack Name
 
-trackBalanced ts@(TagStack s@(top:_) _) (EventContent c)
-    | top == "head" = trace (indent s ++ "TITLE " ++ contentStr c) ts
+trackBalanced ts@(TagStack (top:_) _) (EventContent _)
+    | top == "head" = ts
 trackBalanced TagStack{..} (EventBeginElement name _) =
-    trace (indent stack ++ "START " ++ nameStr name) $
-          TagStack (name:stack) imbalancedTags
+    TagStack (name:stack) imbalancedTags
 trackBalanced (TagStack (top:rest) imb) e@(EventEndElement name)
-    | top == name = trace (indent rest ++ "END " ++ nameStr name) $
-                    TagStack rest imb
-    | otherwise   = trace (  indent rest ++ "IMB " ++ nameStr top ++ "/"
-                          ++ nameStr name) $
-                    trackBalanced (TagStack rest $ top `S.insert` imb) e
-trackBalanced ts@(TagStack [] _) (EventEndElement name) =
-    trace ("BANG " ++ nameStr name) $
-          ts
+    | top == name = TagStack rest imb
+    | otherwise   = trackBalanced (TagStack rest $ top `S.insert` imb) e
+trackBalanced ts@(TagStack [] _) (EventEndElement _) =
+    ts
 
 trackBalanced ts EventBeginDocument  = ts
 trackBalanced ts EventEndDocument    = ts
@@ -62,20 +55,15 @@ contentStr (ContentEntity e) = T.unpack $ T.concat ["&", e, ";"]
 
 trackTag :: TagStack T.Text -> Tag T.Text -> TagStack T.Text
 
-trackTag ts@(TagStack s@(top:_) _) (TagText c)
-    | top == "head" = trace (indent s ++ "TITLE " ++ T.unpack c) ts
+trackTag ts@(TagStack (top:_) _) (TagText _)
+    | top == "head" = ts
 trackTag TagStack{..} (TagOpen name _) =
-    trace (indent stack ++ "START " ++ T.unpack name) $
-          TagStack (name:stack) imbalancedTags
+    TagStack (name:stack) imbalancedTags
 trackTag (TagStack (top:rest) imb) e@(TagClose name)
-    | top == name = trace (indent rest ++ "END " ++ T.unpack name) $
-                    TagStack rest imb
-    | otherwise   = trace (  indent rest ++ "IMB " ++ T.unpack top ++ "/"
-                          ++ T.unpack name) $
-                    trackTag (TagStack rest $ top `S.insert` imb) e
-trackTag ts@(TagStack [] _) (TagClose name) =
-    trace ("BANG " ++ T.unpack name) $
-          ts
+    | top == name = TagStack rest imb
+    | otherwise   = trackTag (TagStack rest $ top `S.insert` imb) e
+trackTag ts@(TagStack [] _) (TagClose _) =
+    ts
 
 trackTag ts TagText{}     = ts
 trackTag ts TagComment{}  = ts
@@ -83,12 +71,16 @@ trackTag ts TagWarning{}  = ts
 trackTag ts TagPosition{} = ts
 
 
-denestTag :: T.Text -> [T.Text] -> Tag T.Text -> ([T.Text], [Tag T.Text])
+denestTag :: DeNestTransform -> [T.Text] -> Tag T.Text
+          -> ([T.Text], [Tag T.Text])
 
-denestTag denest (top:rest) t@(TagOpen name _)
-    | denest == name && denest == top = (name:rest, [TagClose top, t])
-    | denest == name && denest `L.elem` rest =
+denestTag denest@DeNestTrans{..} stack@(top:rest) t@(TagOpen name _)
+    | name `S.member` denestTags && name == top =
+        (name:rest, [TagClose top, t])
+    | name `S.member` denestTags && name `L.elem` rest =
         (TagClose top :) <$> denestTag denest rest t
+    | name `S.member` denestEmpty =
+        (stack, [t, TagClose name])
 denestTag _ stack t@(TagOpen name _) = (name:stack, [t])
 
 denestTag denest (top:rest) t@(TagClose name)
