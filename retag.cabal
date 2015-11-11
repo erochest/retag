@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                c18sgml
-version:             0.2.0.0
+version:             0.2.1.0
 synopsis:            Munging SGML.
 -- description:         
 license:             Apache-2.0
