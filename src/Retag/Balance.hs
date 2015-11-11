@@ -83,9 +83,12 @@ denestTag denest@DeNestTrans{..} stack@(top:rest) t@(TagOpen name _)
         (stack, [t, TagClose name])
 denestTag _ stack t@(TagOpen name _) = (name:stack, [t])
 
-denestTag denest (top:rest) t@(TagClose name)
-    | top == name = (rest, [t])
-    | otherwise   = (TagClose top :) <$> denestTag denest rest t
+denestTag denest stack@(top:rest) t@(TagClose name)
+    | top == name       = (rest, [t])
+    | name `elem` rest  = (TagClose top :) <$> denestTag denest rest t
+    | otherwise         = (stack, [])
+                          -- That should probably output some kind of warning,
+                          -- instead of silently eating the extra close tag.
 denestTag _ [] t@(TagClose _) = ([], [t])
 
 denestTag _ stack t@(TagText{})     = (stack, [t])
