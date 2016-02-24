@@ -15,9 +15,10 @@ import           GHC.Generics
 data Actions
     = Report
     | DeNest
-    { denestInput   :: !FilePath
-    , denestOutput  :: !FilePath
-    , denestTagName :: !T.Text
+    { denestInput     :: !FilePath
+    , denestOutput    :: !FilePath
+    , denestTagNames  :: !(S.Set T.Text)
+    , denestEmptyTags :: !(S.Set T.Text)
     } deriving (Show, Eq, Data, Typeable, Generic)
 
 data TagStack a

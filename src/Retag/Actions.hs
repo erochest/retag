@@ -13,4 +13,5 @@ import           Retag.Types
 
 action :: Actions -> Script ()
 action Report       = report
-action DeNest{..}   = deNest denestInput denestOutput denestTagName
+action DeNest{..}   = deNest denestInput denestOutput denestTagNames
+                      denestEmptyTags

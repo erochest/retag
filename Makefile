@@ -21,7 +21,7 @@ data/c18-utf8.sgm: data/c18.sgm
 	iconv -f ISO-8859-1 -t UTF-8 < $< > $@
 
 data/c18-utf8.xml: data/c18-utf8.sgm build
-	stack exec -- c18sgml denest --input $< --output $@ --tag pb
+	stack exec -- c18sgml denest --input $< --output $@ --empty pb
 	stack exec -- c18sgml report < $@ 2> debug-xml.out
 
 xmllint: data/c18-utf8.xml

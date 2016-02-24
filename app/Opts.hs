@@ -4,6 +4,7 @@
 module Opts where
 
 
+import qualified Data.Set            as S
 import qualified Data.Text           as T
 import           Options.Applicative
 
@@ -23,11 +24,20 @@ tagName = option (T.pack <$> str)
           (  short 't' <> long "tag" <> metavar "TAG_NAME"
           <> help "The tag name to process.")
 
+emptyName :: Parser T.Text
+emptyName = option (T.pack <$> str)
+            (  short 'e' <> long "empty" <> metavar "TAG_NAME"
+            <> help "The name of tags to close.")
+
 reportOpts :: Parser Actions
 reportOpts = pure Report
 
 denestOpts :: Parser Actions
-denestOpts = DeNest <$> inputFile <*> outputFile <*> tagName
+denestOpts = DeNest
+             <$> inputFile
+             <*> outputFile
+             <*> fmap S.fromList (many tagName)
+             <*> fmap S.fromList (many emptyName)
 
 opts' :: Parser Actions
 opts' = subparser
