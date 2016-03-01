@@ -25,9 +25,14 @@ data/c18-utf8.xml: data/c18-utf8.sgm build
 	stack exec -- c18sgml report < $@ 2> debug-xml.out
 
 xmllint: data/c18-utf8.xml
+	xmllint --huge --stream --noout $<
+	Rscript ./loadC18.R
 
 debug.out: data/c18-utf8.sgm build
 	stack exec -- c18sgml report < $< 2> $@
+
+package: data/c18-utf8.xml
+	zip data/c18-utf8-`timestamp`.zip $<
 
 # docs:
 # generate api documentation
