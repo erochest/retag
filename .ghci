@@ -1,0 +1,5 @@
+:set -fwarn-unused-binds -fwarn-unused-imports
+:set -iapp
+:set -isrc
+:set -XOverloadedStrings
+:load Main C18.Balance C18.Types

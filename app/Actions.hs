@@ -1,6 +1,4 @@
-{-# LANGUAGE OverloadedLists   #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards   #-}
+{-# LANGUAGE RecordWildCards #-}
 
 
 module Actions where
@@ -8,11 +6,12 @@ module Actions where
 
 import           Control.Error
 
-import           Retag.Actions.Default
-
-import           Types
+import           Retag.Actions.DeNest
+import           Retag.Actions.Report
+import           Retag.Types
 
 
 action :: Actions -> Script ()
-
-action Default{..} = defaultAction defaultInput defaultOutput
+action Report       = report
+action DeNest{..}   = deNest denestInput denestOutput denestTagNames
+                      denestEmptyTags

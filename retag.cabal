@@ -1,27 +1,35 @@
 name:                retag
 version:             0.0.0.0
 synopsis:            A utility for cleaning up SGML files.
--- description:         A utility for cleaning up SGML/HTML files.
+description:         A utility for cleaning up SGML/HTML files.
 license:             Apache-2.0
 license-file:        LICENSE
 author:              Eric Rochester
 maintainer:          erochest@gmail.com
--- copyright:           2016 Eric Rochester
--- category:            
+copyright:           2016 Eric Rochester
+category:            HTML
 build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     Retag.Actions.Default
+  exposed-modules:     Retag.Actions.DeNest
+                     , Retag.Actions.Report
+                     , Retag.Balance
                      , Retag.Types
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.8 && <4.9
+                     , bytestring
+                     , conduit
+                     , conduit-combinators
+                     , conduit-extra
+                     , containers
                      , errors
-                     , lens
+                     , tagsoup
                      , text
-                     , text-format
+                     , xml-conduit
+                     , xml-types
   hs-source-dirs:      src
   default-language:    Haskell2010
 
@@ -33,19 +41,23 @@ executable retag
   -- other-extensions:    
   build-depends:       base >=4.8 && <5
                      , retag
+                     , bytestring
+                     , conduit
+                     , conduit-combinators
+                     , containers
                      , errors
-                     , text
                      , optparse-applicative
-                     , errors
+                     , tagsoup
+                     , text
   hs-source-dirs:      app
-  ghc-options:         -O2
-                       -threaded
+  ghc-options:         -threaded
                        -rtsopts
                        "-with-rtsopts=-N"
                        -- -fprof-auto "-with-rtsopts=-N -p -s -h -i0.1"
   default-language:    Haskell2010
 
-test-suite retag-specs
+
+test-suite c18sgml-specs
   type:                exitcode-stdio-1.0
   ghc-options:         -threaded -rtsopts
   hs-source-dirs:      specs
@@ -54,7 +66,6 @@ test-suite retag-specs
   build-depends:         base
                        , retag
                        , errors
-                       , lens
                        , text
                        , QuickCheck
                        , smallcheck
