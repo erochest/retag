@@ -14,7 +14,7 @@ module Opts
 -- import qualified Data.Text           as T
 import           Options.Applicative
 
--- import           Restack.Types
+-- import           Retag.Types
 
 import           Types
 
@@ -47,7 +47,7 @@ opts :: ParserInfo Actions
 opts = info (helper <*> opts')
             (  fullDesc
             <> progDesc "A utility for cleaning up SGML/HTML files."
-            <> header "restack - A utility for cleaning up SGML files.")
+            <> header "retag - A utility for cleaning up SGML files.")
 
 parseOpts :: IO Actions
 parseOpts = execParser opts

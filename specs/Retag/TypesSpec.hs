@@ -1,16 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 
-module Restack.TypesSpec where
+module Retag.TypesSpec where
 
 
 import           Test.Hspec
 
--- import           Restack.Types
+-- import           Retag.Types
 
 
 spec :: Spec
 spec = do
-    describe "Restack" $
+    describe "Retag" $
        it "should have tests." $
            pending

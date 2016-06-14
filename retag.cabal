@@ -1,4 +1,4 @@
-name:                restack
+name:                retag
 version:             0.0.0.0
 synopsis:            A utility for cleaning up SGML files.
 -- description:         A utility for cleaning up SGML/HTML files.
@@ -13,8 +13,8 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     Restack.Actions.Default
-                     , Restack.Types
+  exposed-modules:     Retag.Actions.Default
+                     , Retag.Types
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.8 && <4.9
@@ -25,14 +25,14 @@ library
   hs-source-dirs:      src
   default-language:    Haskell2010
 
-executable restack
+executable retag
   main-is:             Main.hs
   other-modules:       Actions
                      , Opts
                      , Types
   -- other-extensions:    
   build-depends:       base >=4.8 && <5
-                     , restack
+                     , retag
                      , errors
                      , text
                      , optparse-applicative
@@ -45,14 +45,14 @@ executable restack
                        -- -fprof-auto "-with-rtsopts=-N -p -s -h -i0.1"
   default-language:    Haskell2010
 
-test-suite restack-specs
+test-suite retag-specs
   type:                exitcode-stdio-1.0
   ghc-options:         -threaded -rtsopts
   hs-source-dirs:      specs
   main-is:             Specs.hs
-  other-modules:         Restack.TypesSpec
+  other-modules:         Retag.TypesSpec
   build-depends:         base
-                       , restack
+                       , retag
                        , errors
                        , lens
                        , text
@@ -61,7 +61,7 @@ test-suite restack-specs
                        , hspec
   default-language:    Haskell2010
 
-benchmark restack-bench
+benchmark retag-bench
   type:                exitcode-stdio-1.0
   ghc-options:         -O2
                        -threaded
@@ -70,10 +70,10 @@ benchmark restack-bench
   main-is:             Bench.hs
   -- other-modules:         
   build-depends:         base
-                       , restack
+                       , retag
                        , criterion
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/erochest/restack
+  location: https://github.com/erochest/retag

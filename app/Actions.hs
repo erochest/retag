@@ -8,7 +8,7 @@ module Actions where
 
 import           Control.Error
 
-import           Restack.Actions.Default
+import           Retag.Actions.Default
 
 import           Types
 

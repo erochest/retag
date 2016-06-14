@@ -10,7 +10,7 @@
 -- {-# LANGUAGE TemplateHaskell            #-}
 
 
-module Restack.Types where
+module Retag.Types where
 
 
 -- import           Control.Lens

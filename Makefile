@@ -2,7 +2,7 @@
 # BUILD_FLAGS=--pedantic --library-profiling --executable-profiling
 BUILD_FLAGS=--pedantic
 
-RUN=stack exec -- restack
+RUN=stack exec -- retag
 
 init: stack.yaml
 

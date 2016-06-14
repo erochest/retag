@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 
-module Restack.Actions.Default where
+module Retag.Actions.Default where
 
 
 import           Control.Error
 
--- import           Restack.Types
+-- import           Retag.Types
 
 
 defaultAction :: FilePath -> FilePath -> Script ()
