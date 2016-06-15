@@ -13,12 +13,11 @@ import           GHC.Generics
 
 -- TODO: Have the input of `DeNest` translate into a `DeNestTransform`.
 data Actions
-    = Report
-    | DeNest
-    { denestInput     :: !FilePath
-    , denestOutput    :: !FilePath
-    , denestTagNames  :: !(S.Set T.Text)
-    , denestEmptyTags :: !(S.Set T.Text)
+    = Retag
+    { retagInput     :: !FilePath
+    , retagOutput    :: !FilePath
+    , retagTagNames  :: !(S.Set T.Text)
+    , retagEmptyTags :: !(S.Set T.Text)
     } deriving (Show, Eq, Data, Typeable, Generic)
 
 data TagStack a

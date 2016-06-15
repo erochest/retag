@@ -16,9 +16,12 @@ docs:
 	stack haddock
 	open `stack path --local-doc-root`/index.html
 
-# package:
-# build a release tarball or executable
-#
+package: test
+	stack sdist --pvp-bounds both
+
+upload: test
+	stack upload --pvp-bounds both --no-signature
+
 # dev:
 # start dev server or process. `vagrant up`, `yesod devel`, etc.
 #
@@ -68,4 +71,4 @@ restart: distclean init build
 rebuild: clean build
 
 .PHONY: init run docs configure install hlint clean distclean build test
-.PHONY: bench watch watch-test restart rebuild
+.PHONY: bench watch watch-test restart rebuild package upload

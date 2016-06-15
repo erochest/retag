@@ -1,4 +1,4 @@
-module Retag.Actions.DeNest where
+module Retag where
 
 
 import           Control.Error
@@ -12,8 +12,8 @@ import           Retag.Balance
 import           Retag.Types
 
 
-deNest :: FilePath -> FilePath -> S.Set T.Text -> S.Set T.Text -> Script ()
-deNest inputFile outputFile tagNames emptyTags =
+retag :: FilePath -> FilePath -> S.Set T.Text -> S.Set T.Text -> Script ()
+retag inputFile outputFile tagNames emptyTags =
     scriptIO . TIO.writeFile outputFile
                  . renderTags
                  . concat

@@ -29,33 +29,18 @@ emptyName = option (T.pack <$> str)
             (  short 'e' <> long "empty" <> metavar "TAG_NAME"
             <> help "The name of tags to close.")
 
-reportOpts :: Parser Actions
-reportOpts = pure Report
-
-denestOpts :: Parser Actions
-denestOpts = DeNest
-             <$> inputFile
-             <*> outputFile
-             <*> fmap S.fromList (many tagName)
-             <*> fmap S.fromList (many emptyName)
-
-opts' :: Parser Actions
-opts' = subparser
-        (  command "report" (info (helper <*> reportOpts)
-                             (progDesc "Report on the document's structure\
-                                       \ and the tags that are closed\
-                                       \ implicitly."))
-        <> command "denest" (info (helper <*> denestOpts)
-                             (progDesc "Denest a tag that's implicitly closed\
-                                       \ everywhere it is left open."))
-        )
+retagOpts :: Parser Actions
+retagOpts =   Retag
+          <$> inputFile
+          <*> outputFile
+          <*> fmap S.fromList (many tagName)
+          <*> fmap S.fromList (many emptyName)
 
 opts :: ParserInfo Actions
-opts = info (helper <*> opts')
+opts = info (helper <*> retagOpts)
        (  fullDesc
        <> progDesc "Works on closing tags."
-       <> header "retag - utility for reporting on and closing implicit end\
-                 \ tags.")
+       <> header "retag - utility for closing implicit end tags.")
 
 parseOpts :: IO Actions
 parseOpts = execParser opts

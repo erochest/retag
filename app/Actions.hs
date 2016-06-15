@@ -6,12 +6,10 @@ module Actions where
 
 import           Control.Error
 
-import           Retag.Actions.DeNest
-import           Retag.Actions.Report
+import           Retag
 import           Retag.Types
 
 
 action :: Actions -> Script ()
-action Report       = report
-action DeNest{..}   = deNest denestInput denestOutput denestTagNames
-                      denestEmptyTags
+action Retag{..}   = retag retagInput retagOutput retagTagNames
+                           retagEmptyTags

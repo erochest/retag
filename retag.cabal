@@ -1,5 +1,5 @@
 name:                retag
-version:             0.0.0.0
+version:             0.0.1.0
 synopsis:            A utility for cleaning up SGML files.
 description:         A utility for cleaning up SGML/HTML files.
 license:             Apache-2.0
@@ -9,16 +9,15 @@ maintainer:          erochest@gmail.com
 copyright:           2016 Eric Rochester
 category:            HTML
 build-type:          Simple
--- extra-source-files:  
+-- extra-source-files:
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     Retag.Actions.DeNest
-                     , Retag.Actions.Report
+  exposed-modules:     Retag
                      , Retag.Balance
                      , Retag.Types
-  -- other-modules:       
-  -- other-extensions:    
+  -- other-modules:
+  -- other-extensions:
   build-depends:       base >=4.8 && <4.9
                      , bytestring
                      , conduit
@@ -37,8 +36,7 @@ executable retag
   main-is:             Main.hs
   other-modules:       Actions
                      , Opts
-                     , Types
-  -- other-extensions:    
+  -- other-extensions:
   build-depends:       base >=4.8 && <5
                      , retag
                      , bytestring
@@ -56,34 +54,33 @@ executable retag
                        -- -fprof-auto "-with-rtsopts=-N -p -s -h -i0.1"
   default-language:    Haskell2010
 
-
-test-suite c18sgml-specs
-  type:                exitcode-stdio-1.0
-  ghc-options:         -threaded -rtsopts
-  hs-source-dirs:      specs
-  main-is:             Specs.hs
-  other-modules:         Retag.TypesSpec
-  build-depends:         base
-                       , retag
-                       , errors
-                       , text
-                       , QuickCheck
-                       , smallcheck
-                       , hspec
-  default-language:    Haskell2010
-
-benchmark retag-bench
-  type:                exitcode-stdio-1.0
-  ghc-options:         -O2
-                       -threaded
-                       -rtsopts
-  hs-source-dirs:      bench
-  main-is:             Bench.hs
-  -- other-modules:         
-  build-depends:         base
-                       , retag
-                       , criterion
-  default-language:    Haskell2010
+-- test-suite c18sgml-specs
+--   type:                exitcode-stdio-1.0
+--   ghc-options:         -threaded -rtsopts
+--   hs-source-dirs:      specs
+--   main-is:             Specs.hs
+--   other-modules:         Retag.TypesSpec
+--   build-depends:         base
+--                        , retag
+--                        , errors
+--                        , text
+--                        , QuickCheck
+--                        , smallcheck
+--                        , hspec
+--   default-language:    Haskell2010
+--
+-- benchmark retag-bench
+--   type:                exitcode-stdio-1.0
+--   ghc-options:         -O2
+--                        -threaded
+--                        -rtsopts
+--   hs-source-dirs:      bench
+--   main-is:             Bench.hs
+--   -- other-modules:
+--   build-depends:         base
+--                        , retag
+--                        , criterion
+--   default-language:    Haskell2010
 
 source-repository head
   type:     git
